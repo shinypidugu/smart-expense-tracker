@@ -11,7 +11,7 @@ if (rootElement) {
     <React.StrictMode>
       <Router>
         <p>insideindextsx</p>
-        <p>jgvugv newafter github</p>
+        <p>new commit</p>
 
         <App />
       </Router>
