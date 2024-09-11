@@ -9,7 +9,6 @@ interface ExpenseListProps {
   handleDelete: (id: number) => void;
 }
 
-// Function to format date to DD/MM/YYYY
 const formatDateForDisplay = (date: string) => {
   const [year, month, day] = date.split('-');
   return `${day}/${month}/${year}`;
@@ -22,7 +21,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, setExpenseToEdit, h
       style={{ 
         padding: '20px', 
         backgroundColor: '#0d1117', 
-        border: '1px solid #30363d',  // Single border around the entire list
+        border: '1px solid #30363d', 
         borderRadius: '8px', 
       }}
     >

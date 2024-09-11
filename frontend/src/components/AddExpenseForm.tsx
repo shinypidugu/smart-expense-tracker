@@ -63,7 +63,6 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ fetchExpenses, expenseT
     }
   };
 
-  // Disable button if any field is empty
   const isFormValid = description !== '' && amount !== '' && date !== '' && category !== '';
 
   return (
@@ -72,9 +71,9 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ fetchExpenses, expenseT
       style={{ 
         padding: '20px', 
         backgroundColor: '#0d1117', 
-        border: '1px solid #30363d',  // Ensure border consistency
-        marginBottom: '20px',  // Add consistent spacing with the Expense List
-        boxShadow: 'none',  // Ensure no shadow is applied
+        border: '1px solid #30363d',
+        marginBottom: '20px',
+        boxShadow: 'none', 
       }}
     >
       <form onSubmit={handleSubmit}>
