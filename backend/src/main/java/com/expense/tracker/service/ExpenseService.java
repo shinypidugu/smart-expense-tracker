@@ -6,6 +6,7 @@ import com.expense.tracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,6 +25,9 @@ public class ExpenseService {
     }
 
     public Expense addExpense(Expense expense) {
+        if (expense.getDate() == null) {
+            expense.setDate(LocalDate.now());
+        }
         return expenseRepository.save(expense);
     }
 
@@ -32,6 +36,7 @@ public class ExpenseService {
         existingExpense.setDescription(expense.getDescription());
         existingExpense.setAmount(expense.getAmount());
         existingExpense.setCategory(expense.getCategory());
+        existingExpense.setDate(expense.getDate());  // Fix: Update the date field
         return expenseRepository.save(existingExpense);
     }
 

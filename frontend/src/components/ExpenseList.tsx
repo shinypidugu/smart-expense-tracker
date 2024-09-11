@@ -1,37 +1,93 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { Paper, Typography, Button, Box, Divider } from '@mui/material';
+import { Expense } from '../types';
 
-interface Expense {
-  id: number;
-  description: string;
-  amount: number;
-  category: string;
+interface ExpenseListProps {
+  expenses: Expense[];
+  fetchExpenses: () => void;
+  setExpenseToEdit: (expense: Expense | null) => void;
+  handleDelete: (id: number) => void;
 }
 
-const ExpenseList: React.FC = () => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+// Function to format date to DD/MM/YYYY
+const formatDateForDisplay = (date: string) => {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+};
 
-  useEffect(() => {
-    console.log("Fetching expenses...");
-    axios.get('http://localhost:8080/api/expenses')
-      .then(response => {
-        console.log('Fetched expenses:', response.data);
-        setExpenses(response.data);
-      })
-      .catch(error => console.error('Error fetching expenses:', error));
-  }, []);
-
+const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, setExpenseToEdit, handleDelete }) => {
   return (
-    <div>
-      <h1>Expense List</h1>
-      <ul>
-        {expenses.map(expense => (
-          <li key={expense.id}>
-            {expense.description} - ${expense.amount}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Paper 
+      elevation={0} 
+      style={{ 
+        padding: '20px', 
+        backgroundColor: '#0d1117', 
+        border: '1px solid #30363d',  // Single border around the entire list
+        borderRadius: '8px', 
+      }}
+    >
+      {/* Header Row for the Column Titles */}
+      <Box display="flex" justifyContent="space-between" py={1} style={{ borderBottom: '1px solid #30363d' }}>
+        <Typography variant="h6" style={{ flex: 1, textAlign: 'center' }}>Description</Typography>
+        <Typography variant="h6" style={{ flex: 1, textAlign: 'center' }}>Amount</Typography>
+        <Typography variant="h6" style={{ flex: 1, textAlign: 'center' }}>Date</Typography>
+        <Typography variant="h6" style={{ flex: 1, textAlign: 'center' }}>Category</Typography>
+        <Typography variant="h6" style={{ flex: 1, textAlign: 'center' }}>Actions</Typography>
+      </Box>
+
+      {/* Expense Items */}
+      {expenses.map((expense, index) => (
+        <React.Fragment key={expense.id}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" py={2} style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+            {/* Description */}
+            <Typography variant="body2" style={{ flex: 1 }}>{expense.description}</Typography>
+
+            {/* Amount */}
+            <Typography variant="body2" style={{ flex: 1, textAlign: 'center' }}>${expense.amount.toFixed(2)}</Typography>
+
+            {/* Date */}
+            <Typography variant="body2" style={{ flex: 1, textAlign: 'center' }}>{formatDateForDisplay(expense.date)}</Typography>
+
+            {/* Category */}
+            <Typography variant="body2" style={{ flex: 1, textAlign: 'center' }}>{expense.category}</Typography>
+
+            {/* Actions */}
+            <Box display="flex" justifyContent="flex-end" style={{ flex: 1 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#30363d',
+                  color: '#c9d1d9',
+                  '&:hover': {
+                    backgroundColor: '#484f58',
+                  },
+                  marginRight: '10px',
+                }}
+                onClick={() => setExpenseToEdit(expense)}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#d73a49',
+                  color: '#ffffff',
+                  '&:hover': {
+                    backgroundColor: '#a82a3c',
+                  },
+                }}
+                onClick={() => handleDelete(expense.id!)}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Box>
+
+          {/* Full-Length Divider */}
+          {index < expenses.length - 1 && <Divider style={{ backgroundColor: '#30363d', width: '100%' }} />}
+        </React.Fragment>
+      ))}
+    </Paper>
   );
 };
 

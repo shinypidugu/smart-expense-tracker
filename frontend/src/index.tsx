@@ -10,9 +10,6 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <Router>
-        <p>insideindextsx</p>
-        <p>jgvugv newafter github</p>
-
         <App />
       </Router>
     </React.StrictMode>

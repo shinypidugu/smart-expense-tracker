@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 public class Expense {
@@ -14,14 +15,16 @@ public class Expense {
     private String category;
     private double amount;
     private String description;
+    private LocalDate date;  // New field for storing the date of the expense
 
     // Constructors
     public Expense() {}
 
-    public Expense(String category, double amount, String description) {
+    public Expense(String category, double amount, String description, LocalDate date) {
         this.category = category;
         this.amount = amount;
         this.description = description;
+        this.date = date;
     }
 
     // Getters and setters
@@ -56,5 +59,12 @@ public class Expense {
     public void setDescription(String description) {
         this.description = description;
     }
-}
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+}
